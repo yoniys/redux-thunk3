@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { fetchUsers } from '../redux/user/userActions'
-// import { addUser } from '../redux/user/userActions'
-///
 
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,14 +9,14 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-///
+
 
 function UsersContainer ({ userData, fetchUsers }) {
+  let i=0
   useEffect(() => {
     fetchUsers()
-    // addUser()
   }, [])
-  
+  if(userData.users.length>0&&i==0){
   return userData.loading ? (
     <h2>Loading</h2>
   ) : userData.error ? (
@@ -27,7 +24,9 @@ function UsersContainer ({ userData, fetchUsers }) {
   ) : (
     <div>
       <h2>Users List</h2>
+      
       <div>
+        
        
            <TableContainer component={Paper}>
            <Table  aria-label="simple table">
@@ -62,8 +61,12 @@ function UsersContainer ({ userData, fetchUsers }) {
           
       </div>
     </div>
-  )
+  )}else{return(<h1>loading</h1>)}
 }
+  
+
+
+
 
 const mapStateToProps = state => {
   return {
@@ -74,10 +77,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUsers: () => dispatch(fetchUsers()),
-    //
-    // addUser:()=>dispatch(
-    //   addUser())
-    //
+   
   }
 }
 
@@ -86,17 +86,3 @@ export default connect(
   mapDispatchToProps
 )(UsersContainer)
 
-////////
-// sortBy(key){
-//   this.setState({
-//     data:data.sort((a,b)=> {
-//       if(a[key]>b[key]){ 
-//         console.log(a[key]);
-//       return 1}
-//       else{
-//         console.log(b[key])
-//       return -1}
-   
-//   })
-//   })
-//     }

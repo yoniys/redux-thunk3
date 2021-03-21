@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { connect } from 'react-redux'
-import { fetchUsers } from '../redux/user/userActions'
+import { fetchUsers,addUser } from '../redux/user/userActions'
 
  class SimpleFormExample extends React.Component {
     state = {
@@ -22,6 +22,7 @@ import { fetchUsers } from '../redux/user/userActions'
 
     handleSubmit = () => {
         this.setState({ submitted: true }, () => {
+            this.props.addUser(this.state.formData.name,this.state.formData.age,this.state.formData.email)
             setTimeout(() => this.setState({ submitted: false }), 5000);
         });
     }
@@ -63,11 +64,11 @@ import { fetchUsers } from '../redux/user/userActions'
                 <br />
            
                 <Button
-                    color="primary"
+                    color="secondary"
                     variant="contained"
                     type="submit"
                     disabled={submitted}
-                   onClick={name1(submitted,this.state.formData.name,this.state.formData.age,this.state.formData.email)}
+             
                 >
                     {
                         (submitted && 'Your user is submitted!')
@@ -79,25 +80,18 @@ import { fetchUsers } from '../redux/user/userActions'
     }
 }
 
-function name1(submit,name,age,email) {
-    if(submit){
-    console.log("yyyyyy");
-    console.log(submit,name,age,email);
-    fetchUsers()}
-}
+
 const mapStateToProps = state => {
     return {
       userData: state.user
     }
-  }
-  
+  }  
   const mapDispatchToProps = dispatch => {
     return {
       fetchUsers: () => dispatch(fetchUsers()),
-      //
-    //   addUser:()=>dispatch(
-    //     addUser())
-      //
+      addUser: (name,age,email) => {
+        dispatch(addUser(name,age,email));
+      },
     }
   }
   

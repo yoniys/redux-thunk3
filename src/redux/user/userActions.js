@@ -11,43 +11,41 @@ import {
 export const fetchUsers = (name1,age,email) => {
   return (dispatch) => {
     dispatch(fetchUsersRequest())
-    console.log(name1,age,email);
     axios
       .get('http://localhost:3000/')
       .then(response => {
-        // response.data is the users
         const users = response.data
-        console.log(users);
         dispatch(fetchUsersSuccess(users))
       })
       .catch(error => {
-        // error.message is the error message
         dispatch(fetchUsersFailure(error.message))
       })
   }
 }
-// export const addUser = (name1,age,email) => {
+
+
+
+export const addUser = (  name,  age,  email) => {
+  return (dispatch, getState) => {
+    let data={
+      name:name,
+      age:age,
+      email:email
+    }
+      axios.post('http://localhost:3000/addUser',data)
+      .then(response => {
+        const users = response.data
+        dispatch(addUsersSuccess(users))
+      })
+      .catch(error => {
+        dispatch(addUsersFailure(error.message))
+      })
   
-//   console.log("name1,age,email",name1,age,email);
-//   return (dispatch) => {
-//     dispatch(addUsersRequest())
-   
-//     axios
-//       .get('http://localhost:3000/')
-//       // ,{name:name1,age:age,email:email})
-//       .then(response => {
-//         // response.data is the users
-//         const users = response.data
-//         console.log(users);
-//         dispatch(addUsersSuccess(users))
-//       })
-//       .catch(error => {
-//         console.log("eeeeeeeeee");
-//         // error.message is the error message
-//         dispatch(addUsersFailure(error.message))
-//       })
-//   }
-// }
+  };
+}
+
+
+
 
 export const fetchUsersRequest = () => {
   return {
@@ -56,7 +54,6 @@ export const fetchUsersRequest = () => {
 }
 
 export const fetchUsersSuccess = users => {
-  console.log("eeeeeeeeeeeeeeeeeeee");
   return {
     type: FETCH_USERS_SUCCESS,
     payload: users
@@ -70,7 +67,6 @@ export const fetchUsersFailure = error => {
   }
 }
   export const addUsersRequest = () => {
-    console.log("eeeeeeeeeeeeeeeeeeee");
     return {
       type: ADD_USERS_REQUEST
     }
@@ -89,4 +85,3 @@ export const fetchUsersFailure = error => {
       payload: error
     }
   }
-
